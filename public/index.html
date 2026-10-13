@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FuelWise</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2ea;--card:#fbfcf9;--ink:#1e2a22;--mut:#66756a;--line:#d9e1d3;--a:#4f6f56;--a2:#7d9a7a;--soft:#e2eade;--b:#a98a3d;--bad:#a8403a;--hero:#3d5a45;--ht:#f1f5ee;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141b16;--card:#1b251e;--ink:#e6ede4;--mut:#93a496;--line:#2c3a2f;--a:#9dbb98;--a2:#7d9a7a;--soft:#223027;--b:#d2b360;--bad:#f09a92;--hero:#233a2b;--ht:#e9f1e6}}
+:root[data-theme="dark"]{--bg:#141b16;--card:#1b251e;--ink:#e6ede4;--mut:#93a496;--line:#2c3a2f;--a:#9dbb98;--a2:#7d9a7a;--soft:#223027;--b:#d2b360;--bad:#f09a92;--hero:#233a2b;--ht:#e9f1e6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Sora,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+.ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.hidden{display:none!important}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;letter-spacing:-.02em}
+.brand svg{width:34px;height:34px}
+input,select,button{font:inherit;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--a2);outline-offset:2px}
+button{background:var(--a);color:var(--card);border:0;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+:root[data-theme="dark"] button,:root:not([data-theme="light"]) button{}
+button.sec{background:transparent;color:var(--a);border:1px solid var(--a2)}
+button.link{background:none;border:0;color:var(--a);width:auto;padding:4px;font-weight:600;text-decoration:underline}
+label{font-size:12px;color:var(--mut);display:block;margin-bottom:4px}
+.msg{font-size:13px;min-height:20px;margin-top:8px;color:var(--bad)}.msg.ok{color:var(--a)}
+/* auth */
+#auth{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
+.side{background:var(--hero);color:var(--ht);padding:48px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.side .brand{color:var(--ht)}
+.side h2{font-size:clamp(26px,3.4vw,38px);line-height:1.15;margin:0 0 12px;max-width:420px;letter-spacing:-.02em}
+.side p{opacity:.8;max-width:380px;margin:0}
+.side:after{content:"";position:absolute;right:-90px;bottom:-90px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(241,245,238,.18);box-shadow:0 0 0 40px rgba(241,245,238,.05),0 0 0 80px rgba(241,245,238,.04)}
+.form{display:flex;align-items:center;justify-content:center;padding:32px 20px}
+.box{width:100%;max-width:380px}
+.box h1{font-size:24px;margin:0 0 4px;letter-spacing:-.02em}.box>p{color:var(--mut);margin:0 0 18px;font-size:14px}
+.f{margin-bottom:12px}
+.iw{position:relative}.iw .ic{position:absolute;left:12px;top:50%;margin-top:-9px;color:var(--mut)}.iw input,.iw select{padding-left:38px}
+.alt{text-align:center;font-size:14px;color:var(--mut);margin-top:14px}
+.mobhead{display:none}
+@media(max-width:760px){#auth{grid-template-columns:1fr}.side{display:none}.mobhead{display:flex;margin-bottom:22px}.form{align-items:flex-start}}
+/* app */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top div{max-width:1000px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.who{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--mut)}
+.who button{width:auto;padding:7px 12px;font-size:13px}
+main{max-width:1000px;margin:0 auto;padding:18px 16px 56px}
+.hero{background:var(--hero);color:var(--ht);border-radius:20px;padding:24px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:flex-end;margin-bottom:14px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-60px;top:-80px;width:240px;height:240px;border-radius:50%;box-shadow:0 0 0 30px rgba(241,245,238,.05),0 0 0 60px rgba(241,245,238,.04)}
+.hero small{opacity:.75;font-size:13px;display:flex;align-items:center;gap:6px}
+.hero h1{font-size:clamp(24px,5vw,36px);margin:4px 0;line-height:1.15;letter-spacing:-.02em}
+.hero p{margin:0;opacity:.75;font-size:13px}
+.big{text-align:right;position:relative;z-index:1}.big b{font-size:clamp(46px,9vw,76px);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.big span{display:block;opacity:.75;font-size:13px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.stat{display:flex;gap:12px;align-items:center}
+.stat i{width:38px;height:38px;border-radius:11px;background:var(--soft);color:var(--a);display:grid;place-items:center;flex:none}
+.stat small{color:var(--mut);font-size:12px;display:block}.stat b{font-size:17px;font-variant-numeric:tabular-nums}
+h2.t{font-size:15px;margin:0 0 12px;display:flex;align-items:center;gap:8px}h2.t .ic{color:var(--a)}
+.two{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-bottom:14px}
+.row{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));align-items:end}
+.sum{grid-column:1/-1;font-size:14px;color:var(--a);font-weight:600}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums;min-width:660px}
+th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}th{color:var(--mut);font-weight:600}
+td button{width:auto;padding:6px 8px;background:transparent;color:var(--bad);border:1px solid var(--line)}
+svg.ch{width:100%;height:auto;display:block}
+.empty{color:var(--mut);font-size:14px;padding:30px 0;text-align:center}
+.mt{margin-bottom:14px}
+.top div{flex-wrap:wrap}.who{min-width:0}#uname{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#sync{font-size:11px}
+@media(max-width:480px){.who .ic:first-child{display:none}.who{gap:8px}.who button{padding:6px 10px}}
+.tabs{display:flex;gap:6px;background:var(--soft);padding:5px;border-radius:14px;margin-bottom:14px}
+.tabs button{flex:1;background:transparent;color:var(--mut);padding:10px 8px;font-size:14px;border-radius:10px}
+.tabs button.on{background:var(--card);color:var(--a);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+@media(max-width:480px){.tabs button{font-size:12px;gap:5px;padding:9px 4px}.tabs .ic{width:16px;height:16px}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="logo" viewBox="0 0 40 40"><rect width="40" height="40" rx="12" fill="var(--a)"/><path d="M20 7c0 0-9 9.5-9 16a9 9 0 0 0 18 0c0-6.500-9-16-9-16z" fill="var(--card)"/><path d="M15 25.500c0-4 3-7 9-8-.5 6-3.500 9-9 8z" fill="var(--a)"/><path d="M15.500 25l5-5" stroke="var(--card)" stroke-width="1.400" stroke-linecap="round"/></symbol>
+<symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5"/></symbol>
+<symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s-6 6.500-6 11a6 6 0 0 0 12 0c0-4.500-6-11-6-11z"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M8 3v4M16 3v4"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h2"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h6a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1-4 4-6 8-6s7 2 8 6"/></symbol>
+<symbol id="i-out" viewBox="0 0 24 24"><path d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M15 8l4 4-4 4M19 12H9"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 8l3 3"/></symbol>
+<symbol id="i-car" viewBox="0 0 24 24"><path d="M5 16v-5l2-5h10l2 5v5M3 16h18M7 16v3M17 16v3"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-6"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></symbol>
+<symbol id="i-trend" viewBox="0 0 24 24"><path d="M4 17l5-5 4 4 7-8M15 8h5v5"/></symbol>
+</svg>
+
+<section id="auth" class="hidden">
+  <div class="side">
+    <div class="brand"><svg><use href="#logo"/></svg>FuelWise</div>
+    <div><h2>Kenali setiap liter yang kamu isi.</h2><p>Catat pengisian BBM, pantau km/liter, dan lihat ke mana uang bensinmu pergi.</p></div>
+    <p style="font-size:12px">Datamu tersinkron otomatis di semua perangkat.</p>
+  </div>
+  <div class="form"><div class="box">
+    <div class="brand mobhead"><svg><use href="#logo"/></svg>FuelWise</div>
+    <div id="p-login">
+      <h1>Selamat datang kembali</h1><p>Masuk untuk melihat dashboard kendaraanmu.</p>
+      <div class="f"><label for="l-user">Username</label><div class="iw"><svg class="ic"><use href="#i-user"/></svg><input id="l-user" autocomplete="username" autocapitalize="none"></div></div>
+      <div class="f"><label for="l-pw">Kata sandi</label><div class="iw"><svg class="ic"><use href="#i-lock"/></svg><input id="l-pw" type="password" autocomplete="current-password"></div></div>
+      <button id="b-login">Masuk</button>
+      <div class="msg" id="m-login" role="alert"></div>
+      <div class="alt">Belum punya akun? <button class="link" data-go="reg">Buat akun</button></div>
+    </div>
+    <div id="p-reg" class="hidden">
+      <h1>Buat akun</h1><p>Gratis, selesai dalam satu menit.</p>
+      <div class="f"><label for="r-user">Username (3–20 karakter)</label><div class="iw"><svg class="ic"><use href="#i-user"/></svg><input id="r-user" autocomplete="username" autocapitalize="none"></div></div>
+      
+      <div class="f"><label for="r-pw">Kata sandi (min. 6 karakter)</label><div class="iw"><svg class="ic"><use href="#i-lock"/></svg><input id="r-pw" type="password" autocomplete="new-password"></div></div>
+      
+      
+      <button id="b-reg">Buat akun</button>
+      <div class="msg" id="m-reg" role="alert"></div>
+      <div class="alt">Sudah punya akun? <button class="link" data-go="login">Masuk</button></div>
+    </div>
+  </div></div>
+</section>
+
+<section id="app" class="hidden">
+<header class="top"><div>
+  <span class="brand"><svg><use href="#logo"/></svg>FuelWise</span>
+  <span class="who"><svg class="ic"><use href="#i-user"/></svg><span id="uname"></span><small id="sync" style="color:var(--mut)"></small><button class="sec" id="logout"><svg class="ic"><use href="#i-out"/></svg>Keluar</button></span>
+</div></header>
+<main>
+  <section class="hero">
+    <div style="position:relative;z-index:1"><small><svg class="ic"><use href="#i-car"/></svg>Dashboard kendaraan</small><h1 id="vname">Kendaraan</h1><p id="vsub"></p></div>
+    <div class="big"><b id="avg">–</b><span>km/liter rata-rata</span></div>
+  </section>
+  <section class="card mt">
+    <h2 class="t"><svg class="ic"><use href="#i-car"/></svg>Kendaraan</h2>
+    <div class="row">
+      <div><label for="vsel">Pilih kendaraan</label><select id="vsel"></select></div>
+      <div><label for="vin">Nama kendaraan</label><input id="vin" placeholder="mis. Honda Vario 150"></div>
+      <button class="sec" id="vadd"><svg class="ic"><use href="#i-plus"/></svg>Tambah</button>
+      <button class="sec" id="vren">Ganti nama</button>
+    </div>
+  </section>
+  <nav class="tabs" aria-label="Menu"><button class="on" data-tab="dash"><svg class="ic"><use href="#i-gauge"/></svg>Dashboard</button><button data-tab="tx"><svg class="ic"><use href="#i-list"/></svg>Transaksi</button><button data-tab="chart"><svg class="ic"><use href="#i-chart"/></svg>Grafik</button></nav>
+  <div id="t-dash"><section class="grid" id="stats"></section></div>
+  <div id="t-chart" class="hidden">
+  <section class="two">
+    <div class="card"><h2 class="t"><svg class="ic"><use href="#i-wallet"/></svg>Pembelian BBM per pengisian (Rp)</h2><div id="c1"></div></div>
+    <div class="card"><h2 class="t"><svg class="ic"><use href="#i-trend"/></svg>Konsumsi BBM (km/liter)</h2><div id="c2"></div></div>
+  </section>
+  </div>
+  <div id="t-tx" class="hidden">
+  <section class="card mt">
+    <h2 class="t"><svg class="ic"><use href="#i-drop"/></svg>Catat pengisian BBM</h2>
+    <div class="row">
+      <div><label for="dt">Tanggal dan jam pengisian</label><input id="dt" type="datetime-local"></div>
+      <div><label for="odo">Odometer saat ini (km)</label><input id="odo" type="number" inputmode="numeric" min="0"></div>
+      <div><label for="fuel">Jenis bahan bakar</label><select id="fuel"><option>Pertalite</option><option>Pertamax</option><option>Pertamax Turbo</option><option>Biosolar</option><option>Dexlite</option><option>Pertamina Dex</option><option>Lainnya</option></select></div>
+      <div><label for="lit">Jumlah pengisian (liter)</label><input id="lit" type="number" inputmode="decimal" step="0.01" min="0"></div>
+      <div><label for="prc">Harga per liter (Rp)</label><input id="prc" type="number" inputmode="numeric" min="0"></div>
+      <button id="add"><svg class="ic"><use href="#i-plus"/></svg>Simpan transaksi</button>
+      <div class="sum" id="tot"></div>
+    </div>
+    <div class="msg" id="msg" role="alert"></div>
+    <p style="font-size:12px;color:var(--mut);margin:4px 0 0">Konsumsi dihitung dari selisih odometer dibagi liter, jadi isi tangki sampai penuh setiap kali.</p>
+  </section>
+  <section class="card">
+    <h2 class="t"><svg class="ic"><use href="#i-list"/></svg>Riwayat transaksi</h2>
+    <div class="wrap" id="tbl"></div>
+  </section>
+  </div>
+</main>
+</section>
+
+<script>
+var DAYS=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],MON=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+var $=function(i){return document.getElementById(i)};
+var ic=function(n){return '<svg class="ic"><use href="#i-'+n+'"/></svg>'};
+var API='/api',TOK=null,CUR=null;
+function lget(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lset(k,v){try{if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}}
+async function api(path,method,body){
+  var h={'content-type':'application/json'};if(TOK)h.authorization='Bearer '+TOK;
+  var r;try{r=await fetch(API+'/'+path,{method:method||'GET',headers:h,body:body?JSON.stringify(body):undefined})}catch(e){throw new Error('Tidak ada koneksi internet.')}
+  var j=null;try{j=await r.json()}catch(e){}
+  if(j===null)throw new Error('Server belum aktif. Pastikan folder functions terunggah dan database D1 sudah terhubung.');
+  if(r.status===401&&TOK){drop();throw new Error('Sesi berakhir. Silakan masuk lagi.')}
+  if(!r.ok)throw new Error(j.error||'Gagal terhubung ke server.');
+  return j;
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function go(p){['login','reg'].forEach(function(x){$('p-'+x).classList.toggle('hidden',x!==p)});['m-login','m-reg'].forEach(function(m){$(m).textContent='';$(m).className='msg'})}
+document.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){go(b.dataset.go)}});
+function say(id,t,ok){$(id).textContent=t;$(id).className='msg'+(ok?' ok':'')}
+function sync(t,bad){var e=$('sync');e.textContent=t;e.style.color=bad?'var(--bad)':'var(--mut)'}
+async function auth(kind){
+  var pre=kind==='reg'?'r':'l',u=$(pre+'-user').value.trim().toLowerCase(),p=$(pre+'-pw').value,m='m-'+kind,b=$('b-'+kind);
+  if(!u||!p)return say(m,'Isi username dan kata sandi.');
+  b.disabled=true;
+  try{var j=await api(kind==='reg'?'register':'login','POST',{username:u,password:p});TOK=j.token;lset('fw-token',TOK);await enter(j.username)}
+  catch(e){say(m,e.message)}
+  b.disabled=false;
+}
+$('b-reg').onclick=function(){auth('reg')};$('b-login').onclick=function(){auth('login')};
+function drop(){TOK=null;lset('fw-token',null);$('app').classList.add('hidden');$('auth').classList.remove('hidden');$('l-pw').value='';go('login')}
+$('logout').onclick=function(){api('logout','POST').catch(function(){});drop()};
+
+/* app */
+var S;
+function blank(){return {v:[{id:'v1',name:'Kendaraan Saya'}],t:[],cur:'v1'}}
+async function load(){
+  var j=await api('data');S=j.data||blank();
+  if(!S.v||!S.v.length){S.v=[{id:'v1',name:'Kendaraan Saya'}];S.cur='v1'}S.t=S.t||[];
+  if(!CUR||!S.v.some(function(v){return v.id===CUR}))CUR=S.cur&&S.v.some(function(v){return v.id===S.cur})?S.cur:S.v[0].id;
+  S.cur=CUR;
+}
+async function enter(name){
+  $('uname').textContent=name;await load();
+  $('auth').classList.add('hidden');$('app').classList.remove('hidden');
+  sync('Tersinkron');$('dt').value=nowLocal();render();window.scrollTo(0,0);
+}
+async function mutate(fn){
+  sync('Menyimpan…');
+  try{await load();var err=fn();if(err){sync('');return err}
+    await api('data','PUT',{data:S});sync('Tersinkron');render();return ''}
+  catch(e){sync(e.message,true);return e.message}
+}
+async function refresh(){if(!TOK||$('app').classList.contains('hidden'))return;try{await load();render();sync('Tersinkron')}catch(e){}}
+setInterval(refresh,30000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)refresh()});
+function rp(n){return 'Rp '+Math.round(n).toLocaleString('id-ID')}
+function nf(n,d){return n.toLocaleString('id-ID',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function fdate(s){var d=new Date(s);return DAYS[d.getDay()]+', '+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+function nowLocal(){return new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16)}
+function rows(){
+  var r=S.t.filter(function(x){return x.vid===S.cur}).sort(function(a,b){return a.dt<b.dt?-1:a.dt>b.dt?1:0});
+  r.forEach(function(x,i){x.cost=x.lit*x.prc;x.dist=null;x.kmpl=null;if(i>0){var d=x.odo-r[i-1].odo;if(d>0&&x.lit>0){x.dist=d;x.kmpl=d/x.lit}}});
+  return r;
+}
+function chart(el,pts,kind,fmt,color){
+  if(!pts.length){el.innerHTML='<div class="empty">Belum ada data. Catat pengisian di bawah.</div>';return}
+  var W=600,H=230,L=52,R=12,T=14,B=30,n=pts.length,mx=Math.max.apply(null,pts.map(function(p){return p.v}))*1.15||1,iw=W-L-R,ih=H-T-B,g='',i;
+  for(i=0;i<=4;i++){var y=T+ih-ih*i/4;g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'" stroke="var(--line)"/><text x="'+(L-6)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" fill="var(--mut)">'+fmt(mx*i/4)+'</text>'}
+  var step=iw/n,pos=function(k){return L+step*k+step/2},py=function(v){return T+ih-ih*v/mx},skip=Math.ceil(n/7);
+  if(kind==='bar'){pts.forEach(function(p,k){var bw=Math.min(36,step*.65);g+='<rect x="'+(pos(k)-bw/2)+'" y="'+py(p.v)+'" width="'+bw+'" height="'+(T+ih-py(p.v))+'" rx="5" fill="'+color+'"><title>'+p.l+': '+fmt(p.v)+'</title></rect>'})}
+  else{var d=pts.map(function(p,k){return (k?'L':'M')+pos(k)+' '+py(p.v)}).join(' ');
+    g+='<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="2.5" stroke-linejoin="round"/>';
+    pts.forEach(function(p,k){g+='<circle cx="'+pos(k)+'" cy="'+py(p.v)+'" r="4.5" fill="var(--card)" stroke="'+color+'" stroke-width="2.5"><title>'+p.l+': '+fmt(p.v)+' km/L</title></circle>'})}
+  pts.forEach(function(p,k){if(k%skip===0)g+='<text x="'+pos(k)+'" y="'+(H-10)+'" text-anchor="middle" font-size="11" fill="var(--mut)">'+p.s+'</text>'});
+  el.innerHTML='<svg class="ch" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Grafik">'+g+'</svg>';
+}
+function render(){
+  $('vsel').innerHTML=S.v.map(function(v){return '<option value="'+v.id+'"'+(v.id===S.cur?' selected':'')+'>'+esc(v.name)+'</option>'}).join('');
+  var veh=S.v.filter(function(v){return v.id===S.cur})[0];$('vname').textContent=veh.name;
+  var r=rows(),last=r[r.length-1];
+  $('vsub').textContent=last?'Pengisian terakhir: '+fdate(last.dt)+' · '+last.fuel:'Belum ada transaksi';
+  var wk=r.filter(function(x){return x.kmpl!==null}),lA=0,cA=0,dist=0;
+  wk.forEach(function(x){lA+=x.lit;cA+=x.cost;dist+=x.dist});
+  var avg=lA?dist/lA:null;$('avg').textContent=avg?nf(avg,1):'–';
+  var tL=0,tC=0;r.forEach(function(x){tL+=x.lit;tC+=x.cost});
+  var lk=wk.length?wk[wk.length-1].kmpl:null,note='–';
+  if(lk&&avg){var df=(lk-avg)/avg*100;note=Math.abs(df)<3?'Setara rata-rata':df>0?'Lebih irit '+nf(df,0)+'%':'Lebih boros '+nf(-df,0)+'%'}
+  var st=[['gauge','Konsumsi terakhir',lk?nf(lk,1)+' km/L':'–'],['trend','Dibanding rata-rata',note],['cal','Total pengisian',r.length+' kali'],['drop','Total BBM',nf(tL,1)+' L'],['wallet','Total biaya',rp(tC)],['chart','Biaya per km',dist?rp(cA/dist):'–'],['route','Jarak tercatat',dist?nf(dist,0)+' km':'–']];
+  $('stats').innerHTML=st.map(function(s){return '<div class="card stat"><i>'+ic(s[0])+'</i><div><small>'+s[1]+'</small><b>'+s[2]+'</b></div></div>'}).join('');
+  var rec=r.slice(-20),lab=function(x){var d=new Date(x.dt);return {l:fdate(x.dt),s:d.getDate()+' '+MON[d.getMonth()]}};
+  chart($('c1'),rec.map(function(x){var q=lab(x);return {l:q.l,s:q.s,v:x.cost}}),'bar',function(v){return v>=1000?Math.round(v/1000)+'rb':Math.round(v)},'var(--a2)');
+  chart($('c2'),rec.filter(function(x){return x.kmpl!==null}).map(function(x){var q=lab(x);return {l:q.l,s:q.s,v:x.kmpl}}),'line',function(v){return nf(v,1)},'var(--a)');
+  $('tbl').innerHTML=!r.length?'<div class="empty">Belum ada transaksi.</div>':'<table><thead><tr><th>Hari, tanggal</th><th>Odometer</th><th>BBM</th><th>Liter</th><th>Harga/L</th><th>Total</th><th>Jarak</th><th>km/L</th><th></th></tr></thead><tbody>'+
+    r.slice().reverse().map(function(x){return '<tr><td>'+fdate(x.dt)+'</td><td>'+nf(x.odo,0)+' km</td><td>'+esc(x.fuel)+'</td><td>'+nf(x.lit,2)+'</td><td>'+rp(x.prc)+'</td><td>'+rp(x.cost)+'</td><td>'+(x.dist?nf(x.dist,0)+' km':'–')+'</td><td>'+(x.kmpl?nf(x.kmpl,1):'–')+'</td><td><button data-del="'+x.id+'" aria-label="Hapus transaksi">'+ic('trash')+'</button></td></tr>'}).join('')+'</tbody></table>';
+  calcTot();
+}
+function calcTot(){var l=parseFloat($('lit').value),p=parseFloat($('prc').value);$('tot').textContent=(l>0&&p>0)?'Total bayar: '+rp(l*p):''}
+$('lit').oninput=calcTot;$('prc').oninput=calcTot;
+$('vsel').onchange=function(){S.cur=CUR=this.value;render()};
+$('vadd').onclick=function(){var n=$('vin').value.trim();if(!n)return;var id='v'+Date.now();
+  mutate(function(){S.v.push({id:id,name:n});S.cur=CUR=id}).then(function(){$('vin').value=''})};
+$('vren').onclick=function(){var n=$('vin').value.trim();if(!n)return;
+  mutate(function(){S.v.forEach(function(v){if(v.id===CUR)v.name=n})}).then(function(){$('vin').value=''})};
+$('add').onclick=async function(){
+  var dt=$('dt').value,odo=parseFloat($('odo').value),lit=parseFloat($('lit').value),prc=parseFloat($('prc').value),fuel=$('fuel').value,m=$('msg');
+  if(!dt||!(odo>=0)||!(lit>0)||!(prc>0)){m.textContent='Lengkapi tanggal, odometer, liter, dan harga per liter dengan angka yang valid.';return}
+  var err=await mutate(function(){
+    var r=rows(),prev=null,next=null;r.forEach(function(x){if(x.dt<=dt)prev=x;else if(!next)next=x});
+    if(prev&&odo<=prev.odo)return 'Odometer harus lebih besar dari pengisian sebelumnya ('+nf(prev.odo,0)+' km).';
+    if(next&&odo>=next.odo)return 'Odometer harus lebih kecil dari pengisian setelahnya ('+nf(next.odo,0)+' km).';
+    S.t.push({id:'t'+Date.now(),vid:CUR,dt:dt,odo:odo,fuel:fuel,lit:lit,prc:prc});
+  });
+  m.textContent=err||'';
+  if(!err){$('odo').value='';$('lit').value='';calcTot()}
+};
+$('tbl').onclick=function(e){var b=e.target.closest('[data-del]');if(b)mutate(function(){S.t=S.t.filter(function(x){return x.id!==b.dataset.del})})};
+document.querySelectorAll('[data-tab]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-tab]').forEach(function(x){x.classList.toggle('on',x===b)});['dash','chart','tx'].forEach(function(t){$('t-'+t).classList.toggle('hidden',t!==b.dataset.tab)})}});
+TOK=lget('fw-token');
+(async function(){
+  if(TOK){try{var j=await api('me');await enter(j.username);return}catch(e){}}
+  $('auth').classList.remove('hidden');go('login');
+})();
+</script>
+</body>
+</html>
